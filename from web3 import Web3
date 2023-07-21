@@ -1,0 +1,26 @@
+from web3 import Web3
+
+infura_url = ''
+
+web3_infura_connection = Web3(Web3.HTTPProvider(infura_url))
+
+teacher_account = ''
+student_account = ''
+
+private_key = ''
+
+nonce = web3_infura_connection.eth.getTransactionCoount(teacher_account)
+
+transaction_data = {
+	'nonce':nonce,
+	'to':student_account,
+	'value':web3_infura_connection.toWei(0.1, 'ether'),
+	'gas':21000
+	'gasPrice':web3_infura_connection.toWei(50,'gwei')
+}
+
+signed_transaction = web3_infura_connection.eth.account.signTransaction(
+transaction_data,private_key)
+transaction_hash = web3_infura_connection.eth.sendRawTransaction(
+signed_transaction.rawTransaction)
+print(web3_infura_connection.toHex(transaction_hash))
